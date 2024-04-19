@@ -39,13 +39,14 @@ public class UserController {
         return body;
     }
 
-    @GetMapping("")
+    @GetMapping("/{userID}")
     @PreAuthorize("hasAuthority('ADMIN)")
     public User findById(@PathVariable long userId) {
         return userService.findById(userId);
     }
 
     @GetMapping("")
+    @PreAuthorize(("hasAuthority('ADMIN')"))
     public Page<User> GetUser(@RequestParam(defaultValue = "0") int page,
                               @RequestParam(defaultValue = "10") int size,
                               @RequestParam(defaultValue = "id") String sort) {
