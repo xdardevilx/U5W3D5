@@ -1,7 +1,6 @@
 package valerio.U5W3D5.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "utenti")
 public class User {
@@ -26,4 +24,12 @@ public class User {
 
     @ManyToMany(mappedBy = "participants")
     private List<Event> events = new ArrayList<>();
+
+    public User(String name, String surname, String email, String password, List<Event> events) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.events = events;
+    }
 }
