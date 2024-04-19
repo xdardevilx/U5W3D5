@@ -10,7 +10,7 @@ public record EventDTO(
         @NotEmpty(message = "la data dell'evento è obbligatoria")
         String dateEvent,
         @NotEmpty(message = "il numero massimo di partecipanti è obbligatorio")
-        String maxParticipants
+        int maxParticipants
 
 ) {
 }

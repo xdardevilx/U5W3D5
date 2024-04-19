@@ -8,6 +8,8 @@ public record UserDTO(
         String name,
         @NotEmpty(message = "il cognome è obbligatorio")
         String surname,
+
+        String role,
         @NotEmpty(message = "l'email è obbligatoria")
         @Email(message = "l'email inserita non è valida")
         String email,

@@ -18,7 +18,7 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nameEvent;
+    private String name;
     private String descriptionEvent;
     private String dateEvent;
     private int maxParticipants;
@@ -31,11 +31,14 @@ public class Event {
     )
     private List<User> participants = new ArrayList<>();
 
-    public Event(String nameEvent, String descriptionEvent, String dateEvent, int maxParticipants, List<User> participants) {
-        this.nameEvent = nameEvent;
+    private int participantsCount;
+
+    public Event(String name, String descriptionEvent, String dateEvent, int maxParticipants, List<User> participants, int participantsCount) {
+        this.name = name;
         this.descriptionEvent = descriptionEvent;
         this.dateEvent = dateEvent;
         this.maxParticipants = maxParticipants;
         this.participants = participants;
+        this.participantsCount = participantsCount;
     }
 }

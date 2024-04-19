@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasAuthority('ADMIN')")
     public UserDTO user(@RequestBody @Validated UserDTO body, BindingResult result) throws Exception {
@@ -30,7 +30,7 @@ public class UserController {
         User user = new User();
         user.setName(body.name());
         user.setSurname(body.surname());
-        user.setRole(Role.ADMIN);
+        user.setRole(Role.valueOf(body.role()));
         user.setEmail(body.email());
         user.setPassword(body.password());
         userService.save(body);
@@ -43,13 +43,13 @@ public class UserController {
         return userService.findById(userId);
     }
 
-    @GetMapping("")
+    @PutMapping("/{userID}")
     @PreAuthorize("hasAuthority('ADMIN)")
     public User findAndUpdate(@PathVariable long userId, @RequestBody UserDTO body) {
         return userService.findByIdAndUpdate(userId, body);
     }
 
-    @GetMapping("")
+    @DeleteMapping("/{userID}")
     @PreAuthorize("hasAuthority('ADMIN)")
     public void findAndDelete(@PathVariable long userId) throws CorrectDeleteUser {
         userService.findByAndDelete(userId);

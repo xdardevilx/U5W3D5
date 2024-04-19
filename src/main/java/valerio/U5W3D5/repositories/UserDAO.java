@@ -6,7 +6,7 @@ import valerio.U5W3D5.entity.User;
 import java.util.Optional;
 
 public interface UserDAO extends JpaRepository<User, Long> {
-    boolean existsByEMail(String email);
+    boolean existsByEmail(String email);
 
-    Optional<User> findByEMail(String email);
+    Optional<User> findByEmail(String email);
 }

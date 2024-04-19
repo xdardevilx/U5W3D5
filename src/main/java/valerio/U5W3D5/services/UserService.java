@@ -26,7 +26,7 @@ public class UserService {
     private PasswordEncoder bcrypt;
 
     public UserResponseDTO save(UserDTO newUser) throws BadRequestException {
-        Optional<User> existingUser = userDAO.findByEMail(newUser.email());
+        Optional<User> existingUser = userDAO.findByEmail(newUser.email());
         if (existingUser.isPresent()) {
             throw new BadRequestException("l'utente esiste già");
         }
@@ -36,6 +36,7 @@ public class UserService {
         user.setRole(Role.USER);
         user.setEmail(newUser.email());
         user.setPassword(bcrypt.encode(newUser.password()));
+        userDAO.save(user);
         return new UserResponseDTO(user.getEmail());
     }
 
@@ -63,7 +64,7 @@ public class UserService {
     }
 
     public User findByEmail(String email) {
-        return this.userDAO.findByEMail(email).orElseThrow(() -> new NotFoundException("utente con email: " + email + " non trovato"));
+        return this.userDAO.findByEmail(email).orElseThrow(() -> new NotFoundException("utente con email: " + email + " non trovato"));
     }
 
 
