@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,5 +24,6 @@ public class User {
     private String email;
     private String password;
 
-
+    @ManyToMany(mappedBy = "participants")
+    private List<Event> events = new ArrayList<>();
 }
