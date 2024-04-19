@@ -1,6 +1,7 @@
 package valerio.U5W3D5.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,6 +12,7 @@ import valerio.U5W3D5.entity.User;
 import valerio.U5W3D5.enums.Role;
 import valerio.U5W3D5.exceptions.BadRequestException;
 import valerio.U5W3D5.exceptions.CorrectDeleteUser;
+import valerio.U5W3D5.exceptions.NotFoundException;
 import valerio.U5W3D5.payloads.UserDTO;
 import valerio.U5W3D5.services.UserService;
 
@@ -43,6 +45,13 @@ public class UserController {
         return userService.findById(userId);
     }
 
+    @GetMapping("")
+    public Page<User> GetUser(@RequestParam(defaultValue = "0") int page,
+                              @RequestParam(defaultValue = "10") int size,
+                              @RequestParam(defaultValue = "id") String sort) {
+        return userService.getUser(page, size, sort);
+    }
+
     @PutMapping("/{userID}")
     @PreAuthorize("hasAuthority('ADMIN)")
     public User findAndUpdate(@PathVariable long userId, @RequestBody UserDTO body) {
@@ -58,6 +67,9 @@ public class UserController {
 
     @GetMapping("/me")
     public User getProfile(@AuthenticationPrincipal User currentAuthenticationUser) {
+        if (currentAuthenticationUser == null) {
+            throw new NotFoundException("user not found");
+        }
         return currentAuthenticationUser;
     }
 

@@ -30,14 +30,28 @@ public class UserService {
         if (existingUser.isPresent()) {
             throw new BadRequestException("l'utente esiste già");
         }
-        User user = new User();
-        user.setName(newUser.name());
-        user.setSurname(newUser.surname());
-        user.setRole(Role.USER);
-        user.setEmail(newUser.email());
-        user.setPassword(bcrypt.encode(newUser.password()));
-        userDAO.save(user);
-        return new UserResponseDTO(user.getEmail());
+
+        if (userDAO.count() == 0) {
+            User user = new User();
+            user.setName(newUser.name());
+            user.setSurname(newUser.surname());
+            user.setRole(Role.ADMIN);
+            user.setEmail(newUser.email());
+            user.setPassword(bcrypt.encode(newUser.password()));
+            userDAO.save(user);
+            return new UserResponseDTO(user.getEmail());
+
+
+        } else {
+            User user = new User();
+            user.setName(newUser.name());
+            user.setSurname(newUser.surname());
+            user.setRole(Role.USER);
+            user.setEmail(newUser.email());
+            user.setPassword(bcrypt.encode(newUser.password()));
+            userDAO.save(user);
+            return new UserResponseDTO(user.getEmail());
+        }
     }
 
     public Page<User> getUser(int page, int size, String sortBy) {
