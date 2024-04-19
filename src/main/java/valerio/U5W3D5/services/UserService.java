@@ -62,5 +62,9 @@ public class UserService {
         return this.userDAO.save(user);
     }
 
+    public User findByEmail(String email) {
+        return this.userDAO.findByEMail(email).orElseThrow(() -> new NotFoundException("utente con email: " + email + " non trovato"));
+    }
+
 
 }
